@@ -8,10 +8,12 @@ from functools import partial
 
 LED_PIN_NUM = 11
 
+
 DASH = 1
 DOT = 2
 PAUSE = 3
 SPACE = 4
+
 
 DASH_NUM_OF_SECONDS = 2
 DOT_NUM_OF_SECONDS = 1
@@ -109,22 +111,6 @@ def get_code_sequence(text):
 	return code_sequence
 
 
-def light_on(num_of_seconds):
-	GPIO.output(LED_PIN_NUM, GPIO.HIGH)
-	time.sleep(num_of_seconds)
-
-
-def light_off(num_of_seconds):
-	GPIO.output(LED_PIN_NUM, GPIO.LOW)
-	time.sleep(num_of_seconds)
-
-
-dash = partial(light_on, num_of_seconds=DASH_NUM_OF_SECONDS)
-dot = partial(light_on, num_of_seconds=DOT_NUM_OF_SECONDS)
-pause = partial(light_off, num_of_seconds=PAUSE_NUM_OF_SECONDS)
-space = partial(light_off, num_of_seconds=SPACE_NUM_OF_SECONDS)
-
-
 def get_light_sequence(code_sequence):
 	light_sequence = []
 
@@ -143,6 +129,22 @@ def get_light_sequence(code_sequence):
 		light_sequence.append(func)
 
 	return light_sequence
+
+
+def light_on(num_of_seconds):
+	GPIO.output(LED_PIN_NUM, GPIO.HIGH)
+	time.sleep(num_of_seconds)
+
+
+def light_off(num_of_seconds):
+	GPIO.output(LED_PIN_NUM, GPIO.LOW)
+	time.sleep(num_of_seconds)
+
+
+dash = partial(light_on, num_of_seconds=DASH_NUM_OF_SECONDS)
+dot = partial(light_on, num_of_seconds=DOT_NUM_OF_SECONDS)
+pause = partial(light_off, num_of_seconds=PAUSE_NUM_OF_SECONDS)
+space = partial(light_off, num_of_seconds=SPACE_NUM_OF_SECONDS)
 
 
 if __name__ == '__main__':
