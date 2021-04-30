@@ -24,10 +24,18 @@ def tear_down_gpio():
 
 def display_morse_code(text):
 	cleaned_text = clean_text(text)
+	light_sequence = get_light_sequence(text)
+
+	for f in light_sequence:
+		f()
 
 
 def clean_text(text):
 	return text.translate(str.maketrans("", "", string.punctuation))
+
+
+def get_light_sequence(text):
+	return []
 
 
 def light_on(num_of_seconds):
