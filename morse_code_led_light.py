@@ -35,7 +35,7 @@ def light_off():
 
 
 dash_on = partial(light_on, num_of_seconds=DASH_NUM_OF_SECONDS)
-got_on = partial(light_on, num_of_seconds=DOT_NUM_OF_SECONDS)
+dot_on = partial(light_on, num_of_seconds=DOT_NUM_OF_SECONDS)
 
 
 if __name__ == '__main__':
