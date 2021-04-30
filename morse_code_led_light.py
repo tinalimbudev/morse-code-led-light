@@ -7,17 +7,26 @@ from functools import partial
 
 
 LED_PIN_NUM = 11
+
+DASH = 1
+DOT = 2
+PAUSE = 3
+SPACE = 4
+
 DASH_NUM_OF_SECONDS = 2
 DOT_NUM_OF_SECONDS = 1
 PAUSE_NUM_OF_SECONDS = 1
 SPACE_NUM_OF_SECONDS = 2
 
 
-class LightSequenceNodes(Enum):
-	dash = "dash"
-	dot = "dot"
-	pause = "pause"
-	space = "space"
+MORSE_CODE_MAP = {
+	"a": [DOT, DASH],
+	# TODO: Add rest of letters and numbers.
+}
+
+
+class InvalidCharacter(Exception):
+	pass
 
 
 def set_up_gpio():
@@ -32,26 +41,39 @@ def tear_down_gpio():
 
 def display_morse_code(text):
 	cleaned_text = clean_text(text)
-	light_sequence = get_light_sequence(text)
+	code_sequence = get_code_sequence(text)
+	light_sequence = get_light_sequence(code_sequence)
 
-	for f in light_sequence:
-		f()
+	for func in light_sequence:
+		func()
 
 
 def clean_text(text):
 	return text.translate(str.maketrans("", "", string.punctuation)).lower()
 
 
-def get_light_sequence(text):
-	light_sequence = []
+def get_code_sequence(text):
+	code_sequence = []
 
 	for character in text:
-		# if space then add space func
-		# if not then add pause func first
-		# then check if dash or dot
-		# if dash then add dash func
-		# if dot then add dot func
-		pass
+		if character == " ":
+			code_sequence.append(SPACE)
+		else:
+			try:
+				codes = MORSE_CODE_MAP[character]
+			except KeyError:
+				print(f"Invalid character given: {character}")
+				raise InvalidCharacter
+			else:
+				code_sequence.extend(codes)
+				code_sequence.append(PAUSE)
+
+	return code_sequence
+
+
+def get_light_sequence(code_sequence):
+	light_sequence = []
+	# TODO: Map everything into appropriate functions.
 
 	return light_sequence
 
@@ -77,5 +99,5 @@ if __name__ == '__main__':
 
     try:
         display_morse_code("")  # Replace with text.
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, InvalidCharacter):
         tear_down_gpio()
