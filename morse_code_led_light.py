@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import string
 import time
 
+from enum import Enum
 from functools import partial
 
 
@@ -10,6 +11,13 @@ DASH_NUM_OF_SECONDS = 2
 DOT_NUM_OF_SECONDS = 1
 PAUSE_NUM_OF_SECONDS = 1
 SPACE_NUM_OF_SECONDS = 2
+
+
+class LightSequenceNodes(Enum):
+	dash = "dash"
+	dot = "dot"
+	pause = "pause"
+	space = "space"
 
 
 def set_up_gpio():
@@ -31,11 +39,21 @@ def display_morse_code(text):
 
 
 def clean_text(text):
-	return text.translate(str.maketrans("", "", string.punctuation))
+	return text.translate(str.maketrans("", "", string.punctuation)).lower()
 
 
 def get_light_sequence(text):
-	return []
+	light_sequence = []
+
+	for character in text:
+		# if space then add space func
+		# if not then add pause func first
+		# then check if dash or dot
+		# if dash then add dash func
+		# if dot then add dot func
+		pass
+
+	return light_sequence
 
 
 def light_on(num_of_seconds):
