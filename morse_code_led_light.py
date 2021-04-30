@@ -21,11 +21,45 @@ SPACE_NUM_OF_SECONDS = 2
 
 MORSE_CODE_MAP = {
 	"a": [DOT, DASH],
-	# TODO: Add rest of letters and numbers.
+	"b": [DASH, DOT, DOT, DOT],
+	"c": [DASH, DOT, DASH, DOT],
+	"d": [DASH, DOT, DOT],
+	"e": [DOT],
+	"f": [DOT, DOT, DASH, DOT],
+	"g": [DASH, DASH, DOT],
+	"h": [DOT, DOT, DOT, DOT],
+	"i": [DOT, DOT],
+	"j": [DOT, DASH, DASH, DASH],
+	"k": [DASH, DOT, DASH],
+	"l": [DOT, DASH, DOT, DOT],
+	"m": [DASH, DASH],
+	"n": [DASH, DOT],
+	"o": [DASH, DASH, DASH],
+	"p": [DOT, DASH, DASH, DOT],
+	"q": [DASH, DASH, DOT, DASH],
+	"r": [DOT, DASH, DOT],
+	"s": [DOT, DOT, DOT],
+	"t": [DASH],
+	"u": [DOT, DOT, DASH],
+	"v": [DOT, DOT, DOT, DASH],
+	"w": [DOT, DASH, DASH],
+	"x": [DASH, DOT, DOT, DASH],
+	"y": [DASH, DOT, DASH, DASH],
+	"z": [DASH, DASH, DOT, DOT],
+	"1": [],
+	"2": [],
+	"3": [],
+	"4": [],
+	"5": [],
+	"6": [],
+	"7": [],
+	"8": [],
+	"9": [],
+	"10": [],
 }
 
 
-class InvalidCharacter(Exception):
+class InvalidInput(Exception):
 	pass
 
 
@@ -49,6 +83,10 @@ def display_morse_code(text):
 
 
 def clean_text(text):
+	if not isinstance(text, string):
+		print("Invalid input type given - please provide a string")
+		raise InvalidInput
+
 	return text.translate(str.maketrans("", "", string.punctuation)).lower()
 
 
@@ -63,7 +101,7 @@ def get_code_sequence(text):
 				codes = MORSE_CODE_MAP[character]
 			except KeyError:
 				print(f"Invalid character given: {character}")
-				raise InvalidCharacter
+				raise InvalidInput
 			else:
 				code_sequence.extend(codes)
 				code_sequence.append(PAUSE)
@@ -112,5 +150,5 @@ if __name__ == '__main__':
 
     try:
         display_morse_code("")  # Replace with text.
-    except (KeyboardInterrupt, InvalidCharacter):
+    except (KeyboardInterrupt, InvalidInput):
         tear_down_gpio()
