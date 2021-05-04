@@ -9,11 +9,11 @@ from functools import partial
 LED_PIN_NUM = 11
 
 
-DOT = 1
-DASH = 2
-SPACE_SL = 3  # The space between parts of the same letter.
-SPACE_BL = 4  # The space between different letters.
-SPACE_BW = 5  # The space between different words.
+DOT = "1"
+DASH = "2"
+SPACE_SL = "3"  # The space between parts of the same letter.
+SPACE_BL = "4"  # The space between different letters.
+SPACE_BW = "5"  # The space between different words.
 
 
 DOT_SECS = 1
@@ -61,6 +61,7 @@ MORSE_CODE_MAP = {
 	"9": [DASH, DASH, DASH, DASH, DOT],
 	"10": [DASH, DASH, DASH, DASH, DASH],
 }
+CODE_MAP = {k: SPACE_SL.join(v) for k, v in MORSE_CODE_MAP.items()}
 
 
 class InvalidInput(Exception):
@@ -102,7 +103,7 @@ def get_code_sequence(text):
 			code_sequence.append(SPACE_BW)
 		else:
 			try:
-				codes = MORSE_CODE_MAP[character]
+				codes = CODE_MAP[character]
 			except KeyError:
 				print(f"Invalid character given: {character}")
 				raise InvalidInput
