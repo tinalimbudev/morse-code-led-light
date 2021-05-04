@@ -99,7 +99,7 @@ def get_code_sequence(text):
 
 	for character in text:
 		if character == " ":
-			code_sequence.append(SPACE)
+			code_sequence.append(SPACE_BW)
 		else:
 			try:
 				codes = MORSE_CODE_MAP[character]
@@ -108,29 +108,9 @@ def get_code_sequence(text):
 				raise InvalidInput
 			else:
 				code_sequence.extend(codes)
-				code_sequence.append(PAUSE)
+				code_sequence.append(SPACE_BL)
 
 	return code_sequence
-
-
-def get_light_sequence(code_sequence):
-	light_sequence = []
-
-	for code in code_sequence:
-		if code == DASH:
-			func = dash
-		elif code == DOT:
-			func = dot
-		elif code == PAUSE:
-			func = pause
-		elif code == SPACE:
-			func == space
-		else:
-			raise NotImplementedError
-
-		light_sequence.append(func)
-
-	return light_sequence
 
 
 def light_on(num_of_seconds):
@@ -143,10 +123,33 @@ def light_off(num_of_seconds):
 	time.sleep(num_of_seconds)
 
 
-dash = partial(light_on, num_of_seconds=DASH_NUM_OF_SECONDS)
-dot = partial(light_on, num_of_seconds=DOT_NUM_OF_SECONDS)
-pause = partial(light_off, num_of_seconds=PAUSE_NUM_OF_SECONDS)
-space = partial(light_off, num_of_seconds=SPACE_NUM_OF_SECONDS)
+dot = partial(light_on, num_of_seconds=DOT_SECS)
+dash = partial(light_on, num_of_seconds=DASH_SECS)
+space_sl = partial(light_off, num_of_seconds=SPACE_SL_SECS)
+space_bl = partial(light_off, num_of_seconds=SPACE_BL_SECS)
+space_bw = partial(light_off, num_of_seconds=SPACE_BW_SECS)
+
+
+def get_light_sequence(code_sequence):
+	light_sequence = []
+
+	for code in code_sequence:
+		if code == DOT:
+			func = dot
+		elif code == DASH:
+			func = dash
+		elif code == SPACE_SL:
+			func = space_sl
+		elif code == SPACE_BL:
+			func == space_bl
+		elif code == SPACE_BW:
+			func = space_bw
+		else:
+			raise NotImplementedError
+
+		light_sequence.append(func)
+
+	return light_sequence
 
 
 if __name__ == '__main__':
