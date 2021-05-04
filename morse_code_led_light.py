@@ -9,16 +9,18 @@ from functools import partial
 LED_PIN_NUM = 11
 
 
-DASH = 1
-DOT = 2
-PAUSE = 3
-SPACE = 4
+DOT = 1
+DASH = 2
+SPACE_SL = 3  # The space between parts of the same letter.
+SPACE_BL = 4  # The space between different letters.
+SPACE_BW = 5  # The space between different words.
 
 
-DASH_NUM_OF_SECONDS = 2
-DOT_NUM_OF_SECONDS = 1
-PAUSE_NUM_OF_SECONDS = 1
-SPACE_NUM_OF_SECONDS = 2
+DOT_SECS = 1
+DASH_SECS = DOT_SECS * 3
+SPACE_SL_SECS = DOT_SECS
+SPACE_BL_SECS = DOT_SECS * 3
+SPACE_BW_SECS = DOT_SECS * 7
 
 
 MORSE_CODE_MAP = {
