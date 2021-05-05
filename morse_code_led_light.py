@@ -88,7 +88,7 @@ def display_morse_code(text):
 
 
 def clean_text(text):
-	if not isinstance(text, string):
+	if not isinstance(text, str):
 		print("Invalid input type given - please provide a string")
 		raise InvalidInput
 
