@@ -105,9 +105,12 @@ def get_code_sequence(text):
 	code_sequence = []
 
 	for character in text:
-		if character == " ":
+		if character == " " and code_sequence:
 			code_sequence.append(SPACE_BW)
 		else:
+			if code_sequence:
+				code_sequence.append(SPACE_BL)
+
 			try:
 				codes = CODE_MAP[character]
 			except KeyError:
@@ -115,7 +118,6 @@ def get_code_sequence(text):
 				raise InvalidInput
 			else:
 				code_sequence.extend(codes)
-				code_sequence.append(SPACE_BL)
 
 	return code_sequence
 
@@ -148,7 +150,7 @@ def get_light_sequence(code_sequence):
 		elif code == SPACE_SL:
 			func = space_sl
 		elif code == SPACE_BL:
-			func == space_bl
+			func = space_bl
 		elif code == SPACE_BW:
 			func = space_bw
 		else:
