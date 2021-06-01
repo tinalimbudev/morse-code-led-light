@@ -80,11 +80,13 @@ def tear_down_gpio():
 
 def display_morse_code(text):
 	cleaned_text = clean_text(text)
-	code_sequence = get_code_sequence(text)
+	code_sequence = get_code_sequence(cleaned_text)
 	light_sequence = get_light_sequence(code_sequence)
 
 	for func in light_sequence:
 		func()
+
+	GPIO.output(LED_PIN_NUM, GPIO.LOW)
 
 
 def clean_text(text):
