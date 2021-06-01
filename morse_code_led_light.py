@@ -68,10 +68,14 @@ class InvalidInput(Exception):
 	pass
 
 
+def light_off():
+	GPIO.output(LED_PIN_NUM, GPIO.LOW)
+
+
 def set_up_gpio():
 	GPIO.setmode(GPIO.BOARD)
 	GPIO.setup(LED_PIN_NUM, GPIO.OUT)
-	GPIO.output(LED_PIN_NUM, GPIO.LOW)
+	light_off()
 
 
 def tear_down_gpio():
@@ -86,7 +90,7 @@ def display_morse_code(text):
 	for func in light_sequence:
 		func()
 
-	GPIO.output(LED_PIN_NUM, GPIO.LOW)
+	light_off()
 
 
 def clean_text(text):
@@ -116,21 +120,21 @@ def get_code_sequence(text):
 	return code_sequence
 
 
-def light_on(num_of_seconds):
+def timed_light_on(num_of_seconds):
 	GPIO.output(LED_PIN_NUM, GPIO.HIGH)
 	time.sleep(num_of_seconds)
 
 
-def light_off(num_of_seconds):
-	GPIO.output(LED_PIN_NUM, GPIO.LOW)
+def timed_light_off(num_of_seconds):
+	light_off()
 	time.sleep(num_of_seconds)
 
 
-dot = partial(light_on, num_of_seconds=DOT_SECS)
-dash = partial(light_on, num_of_seconds=DASH_SECS)
-space_sl = partial(light_off, num_of_seconds=SPACE_SL_SECS)
-space_bl = partial(light_off, num_of_seconds=SPACE_BL_SECS)
-space_bw = partial(light_off, num_of_seconds=SPACE_BW_SECS)
+dot = partial(timed_light_on, num_of_seconds=DOT_SECS)
+dash = partial(timed_light_on, num_of_seconds=DASH_SECS)
+space_sl = partial(timed_light_off, num_of_seconds=SPACE_SL_SECS)
+space_bl = partial(timed_light_off, num_of_seconds=SPACE_BL_SECS)
+space_bw = partial(timed_light_off, num_of_seconds=SPACE_BW_SECS)
 
 
 def get_light_sequence(code_sequence):
